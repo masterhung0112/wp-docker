@@ -1,0 +1,2 @@
+mysql/ibdata1 filter=lfs diff=lfs merge=lfs -text
+*.ibd filter=lfs diff=lfs merge=lfs -text
