@@ -10,7 +10,7 @@ wp:
     ports:
         - "8080:80"
     volumes:
-       - ./wp-content/:/var/www/html/wp-content
+       - ./wp/wp-content/:/var/www/html/wp-content
 mydb:
     image: mysql:5.7
     restart: always
