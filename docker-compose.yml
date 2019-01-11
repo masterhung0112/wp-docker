@@ -1,0 +1,23 @@
+wp:
+    image: wordpress
+    restart: always
+    links:
+        - mydb:mysql
+    environment:
+        - WORDPRESS_DB_NAME=my-wpdb
+        - WORDPRESS_DB_USER=admin
+        - WORDPRESS_DB_PASSWORD=admin
+    ports:
+        - "8080:80"
+    volumes:
+       - ./wp-content/:/var/www/html/wp-content
+mydb:
+    image: mysql:5.7
+    restart: always
+    environment:
+        - MYSQL_ROOT_PASSWORD=admin
+        - MYSQL_DATABASE=my-wpdb
+        - MYSQL_USER=admin
+        - MYSQL_PASSWORD=admin
+    volumes:
+        - ./mysql/:/var/lib/mysql
