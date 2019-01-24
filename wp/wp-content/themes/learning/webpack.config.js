@@ -5,6 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production'
 
@@ -36,7 +37,7 @@ const PATHS = {
   },
 };
 
-let publicPath = '/assets/';
+let publicPath = 'http://localhost:8081/';
 
 module.exports = {
   entry: {
@@ -45,7 +46,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath,
+    //publicPath,
     filename: PATHS.scripts.dest + '/[name].js',
     chunkFilename: PATHS.scripts.dest + '/[name].js',
   },
@@ -112,13 +113,22 @@ module.exports = {
       new OptimizeCssAssetsPlugin()
     ]
   },
+
   plugins: [
     new CopyWebpackPlugin([
       { from: PATHS.images.src, to: PATHS.images.dest, test: PATHS.images.test, },
       { from: PATHS.others.src, to: PATHS.others.dest, ignore: PATHS.others.ignore, context: PATHS.others.context },
     ]), 
     new ImageminPlugin({ disable: devMode, test: PATHS.images.test }),
-    
+    new BrowserSyncPlugin( {
+      proxy: 'http://localhost:8080',
+      files: [
+          'src/**/*.php',
+          'src/**/*.scss'
+      ],
+      reloadDelay: 0
+    }
+  )
   ],
     
 }
